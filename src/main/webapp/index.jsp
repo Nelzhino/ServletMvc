@@ -12,6 +12,11 @@
 	<div class="container">
 		<h2>Basic Table Products in Servlet</h2>
 		<p>Show all products in the table</p>
+		<div>
+			<button type="button" class="btn btn-info">Crear Producto</button>
+			
+		</div>
+		
 		<table class="table">
 			<thead>
 				<tr>
