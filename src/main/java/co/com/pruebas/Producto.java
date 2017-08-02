@@ -7,24 +7,10 @@ public class Producto {
 	private String descripcion;
 	private float valor;
 	
-	public Producto(int codigo, String nombre, String descripcion, float valor) {
-		super();
-		this.codigo = codigo;
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.valor = valor;
-	}
 	
 	public Producto() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Producto(String nombre, String descripcion, float valor) {
-		super();
-		this.nombre = nombre;
-		this.descripcion = descripcion;
-		this.valor = valor;
 	}
 
 	public int getCodigo() {
