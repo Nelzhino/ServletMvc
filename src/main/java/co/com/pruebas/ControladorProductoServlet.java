@@ -50,12 +50,25 @@ public class ControladorProductoServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		try {
-			request.setAttribute("listadoProductos", conexion.getProductos());
-			RequestDispatcher vista = request.getRequestDispatcher("/index.jsp");
-			vista.forward(request, response);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+		Integer instruccion = 0;
+		if (request.getParameter("instruccion") != null) {
+			instruccion = Integer.parseInt(request.getParameter("instruccion"));
+		}
+
+		switch (instruccion) {
+		case 0:
+			listarProductos(request, response);
+			break;
+		case 1:
+			agregarProductos(request, response);
+			break;
+		case 2:
+			try {
+				cargarProductos(request, response);
+			} catch (Exception e) {
+				e.getMessage();
+			}
+			break;
 		}
 
 	}
@@ -68,6 +81,54 @@ public class ControladorProductoServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void listarProductos(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			request.setAttribute("listadoProductos", conexion.getProductos());
+			RequestDispatcher vista = request.getRequestDispatcher("/index.jsp");
+			vista.forward(request, response);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void agregarProductos(HttpServletRequest request, HttpServletResponse response) {
+
+		Producto producto = new Producto();
+		producto.setDescripcion(request.getParameter("descripcion"));
+		producto.setNombre(request.getParameter("nombre"));
+		producto.setValor(Float.parseFloat(request.getParameter("valor")));
+
+		conexion.crearProducto(producto);
+
+		this.listarProductos(request, response);
+
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
+	private void cargarProductos(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Producto producto = conexion.cargarProducto(Integer.parseInt(request.getParameter("codigo")));
+		
+		request.setAttribute("dataProducto", producto);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/load.jsp");
+		requestDispatcher.forward(request, response);
+
 	}
 
 }

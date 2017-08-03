@@ -13,7 +13,7 @@
 		<h2>Basic Table Products in Servlet</h2>
 		<p>Show all products in the table</p>
 		<div>
-			<button type="button" class="btn btn-info">Crear Producto</button>
+			<button type="button" class="btn btn-info" onclick="location.href='create.jsp'">Crear Producto</button>
 			
 		</div>
 		
@@ -23,6 +23,8 @@
 					<th>Nombre</th>
 					<th>Descripcion</th>
 					<th>Precio</th>
+					<th>Accion</th>
+					
 				</tr>
 			</thead>
 			<tbody>
@@ -31,6 +33,11 @@
 						<td>${producto.nombre}</td>
 						<td>${producto.descripcion}</td>
 						<td>${producto.valor}</td>
+						<c:url var="linkTemp" value="Producto">
+							<c:param name="instruccion" value="2"></c:param>
+							<c:param name="codigo" value="${producto.codigo}"></c:param>
+						</c:url>
+						<td><a href="${linkTemp}">Actualizar</a></td>
 					</tr>
 				</c:forEach>
 
