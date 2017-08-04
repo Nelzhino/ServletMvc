@@ -59,7 +59,7 @@ public class Conexion {
 			}
 
 		} catch (SQLException e) {
-			System.out.println(String.format("Error de conexion: %s", e.getMessage()));
+			System.out.println(String.format("Error en la ejecuccion del script: %s", e.getMessage()));
 		}
 
 	}
@@ -84,5 +84,41 @@ public class Conexion {
 		}
 
 		return producto;
+	}
+
+	public void actualizarProductos(Producto producto) {
+		String sql = "UPDATE producto SET nombre = ?, descripcion = ?, precio = ? WHERE codigo = ?";
+		try {
+			Connection connection = dataSource.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, producto.getNombre());
+			preparedStatement.setString(2, producto.getDescripcion());
+			preparedStatement.setFloat(3, producto.getValor());
+			preparedStatement.setInt(4, producto.getCodigo());
+
+			if (preparedStatement.executeUpdate() <= 0) {
+				throw new SQLException();
+			}
+
+		} catch (SQLException e) {
+			System.out.println(String.format("Error en la ejecuccion del script: %s", e.getMessage()));
+		}
+	}
+
+	public void borrarProductos(Integer codigo) {
+		String sql = "DELETE FROM producto WHERE codigo = ?";
+		Connection connection;
+		try {
+			connection = dataSource.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, codigo);
+
+			if (preparedStatement.executeUpdate() <= 0) {
+				throw new SQLException();
+			}
+		} catch (SQLException e) {
+			System.out.println(String.format("Error en la ejecuccion del script: %s", e.getMessage()));
+		}
+
 	}
 }

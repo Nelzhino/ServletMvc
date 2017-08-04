@@ -1,7 +1,6 @@
 package co.com.pruebas;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.annotation.Resource;
 import javax.servlet.RequestDispatcher;
@@ -31,7 +30,10 @@ public class ControladorProductoServlet extends HttpServlet {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
+	
+	/**
+	 * 
+	 */
 	@Override
 	public void init() throws ServletException {
 		// TODO Auto-generated method stub
@@ -66,8 +68,14 @@ public class ControladorProductoServlet extends HttpServlet {
 			try {
 				cargarProductos(request, response);
 			} catch (Exception e) {
-				e.getMessage();
+				System.out.println(String.format("Error al ejecutar: %s", e.getMessage()));
 			}
+			break;
+		case 3:
+			actualizarProductos(request,response);
+			break;
+		case 4:
+			borrarProductos(request, response);
 			break;
 		}
 
@@ -112,7 +120,7 @@ public class ControladorProductoServlet extends HttpServlet {
 
 		conexion.crearProducto(producto);
 
-		this.listarProductos(request, response);
+		listarProductos(request, response);
 
 	}
 
@@ -129,6 +137,36 @@ public class ControladorProductoServlet extends HttpServlet {
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/load.jsp");
 		requestDispatcher.forward(request, response);
 
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void actualizarProductos(HttpServletRequest request, HttpServletResponse response) {
+		Producto producto = new Producto();
+		
+		producto.setCodigo(Integer.parseInt(request.getParameter("codigo")));
+		producto.setNombre(request.getParameter("nombre"));
+		producto.setDescripcion(request.getParameter("descripcion"));
+		producto.setValor(Float.parseFloat(request.getParameter("valor")));
+		
+		conexion.actualizarProductos(producto);
+		
+		listarProductos(request, response);
+		
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
+	private void borrarProductos(HttpServletRequest request, HttpServletResponse response) {
+		Integer codigo = Integer.parseInt(request.getParameter("codigo"));
+		conexion.borrarProductos(codigo);
+		listarProductos(request, response);
 	}
 
 }

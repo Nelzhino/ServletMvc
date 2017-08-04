@@ -37,7 +37,16 @@
 							<c:param name="instruccion" value="2"></c:param>
 							<c:param name="codigo" value="${producto.codigo}"></c:param>
 						</c:url>
-						<td><a href="${linkTemp}">Actualizar</a></td>
+						
+						<c:url var="linkTempDel" value="Producto">
+							<c:param name="instruccion" value="4"></c:param>
+							<c:param name="codigo" value="${producto.codigo}"></c:param>
+						</c:url>
+						<td>
+							<a href="${linkTemp}">Actualizar</a> 
+							-- 
+							<a href="${linkTempDel}">Borrar</a>
+						</td>
 					</tr>
 				</c:forEach>
 
